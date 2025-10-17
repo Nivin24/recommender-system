@@ -69,20 +69,50 @@ print(f"  - movies_initial.csv")
 # SECTION 4: HANDLING MISSING VALUES
 # ============================================================================
 # Check for and handle missing values in the datasets
-# TODO: Identify missing values
-# print(ratings.isnull().sum())
-# print(users.isnull().sum())
-# print(movies.isnull().sum())
 
-# TODO: Implement missing value strategies
-# - Drop rows with missing critical values
-# - Impute missing values where appropriate
-# - Document decisions for missing value handling
+print("\n" + "="*80)
+print("CHECKING FOR MISSING VALUES")
+print("="*80 + "\n")
+
+# Check missing values in ratings dataframe
+print("Missing Values in Ratings Data:")
+print(ratings.isnull().sum())
+print(f"Total missing values: {ratings.isnull().sum().sum()}\n")
+
+# Check missing values in users dataframe
+print("Missing Values in Users Data:")
+print(users.isnull().sum())
+print(f"Total missing values: {users.isnull().sum().sum()}\n")
+
+# Check missing values in movies dataframe
+print("Missing Values in Movies Data:")
+print(movies.isnull().sum())
+print(f"Total missing values: {movies.isnull().sum().sum()}\n")
+
+# Strategy for handling missing values:
+# - Ratings data: If any ratings have missing user_id, movie_id, or rating values,
+#   these rows should be dropped as they are critical for the recommender system.
+#   Missing timestamps can be retained as they are not critical for basic recommendations.
+#
+# - Users data: If user demographic information (age, gender, occupation) is missing,
+#   we could either:
+#   a) Drop the user entirely if multiple fields are missing
+#   b) Impute with mode for categorical variables (gender, occupation)
+#   c) Impute with median/mean for age
+#   d) Create an 'unknown' category for categorical variables
+#
+# - Movies data: Missing release_date or video_release_date can be retained or imputed
+#   with a placeholder. Missing genre information (the binary columns) should be treated
+#   as 0 (genre not applicable). Missing titles should result in dropping the movie as
+#   title is essential for user interpretation.
+#
+# Note: Implementation of these strategies will be done in subsequent iterations.
 
 # ============================================================================
 # SECTION 5: ENCODING CATEGORICAL VARIABLES
 # ============================================================================
 # Encode categorical features for machine learning models
+
 # TODO: Identify categorical columns
 # Categorical features may include:
 # - User: gender, occupation, zip_code
@@ -97,6 +127,7 @@ print(f"  - movies_initial.csv")
 # SECTION 6: NORMALIZING FEATURES
 # ============================================================================
 # Normalize/scale numerical features for better model performance
+
 # TODO: Identify numerical columns requiring normalization
 # Numerical features may include:
 # - User: age
@@ -112,6 +143,7 @@ print(f"  - movies_initial.csv")
 # SECTION 7: SAVING PROCESSED DATA
 # ============================================================================
 # Save processed datasets to data/processed/ folder
+
 # TODO: Save processed dataframes
 # ratings.to_csv('data/processed/ratings_processed.csv', index=False)
 # users.to_csv('data/processed/users_processed.csv', index=False)
